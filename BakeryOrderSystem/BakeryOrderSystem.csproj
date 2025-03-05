@@ -16,9 +16,21 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Data\" />
+    <None Remove="Domain\" />
+    <None Remove="UI\" />
+    <None Remove="Domain\Entities\" />
+    <None Remove="Domain\Interfaces\" />
+    <None Remove="Infrastructure\" />
+    <None Remove="Application\" />
+    <None Remove="Application\Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="Domain\" />
+    <Folder Include="UI\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Interfaces\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Application\" />
+    <Folder Include="Application\Services\" />
   </ItemGroup>
 </Project>
