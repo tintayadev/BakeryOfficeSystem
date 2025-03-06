@@ -16,20 +16,20 @@ namespace BakeryProject.Infrastructure
                 new BakeryOffice
                 {
                     Id = 1,
-                    Name = "Main Office",
+                    Name = "Main Office ;D",
                     MaxCapacity = 150,
-                    Location = "Downtown",
+                    Location = "Sopocachi",
                     ServiceSchedule = "Mon-Fri 8am-5pm",
-                    Chef = new PastryChef { Id = 1, Name = "Chef Main", Specialties = new List<string> { "Baguette", "White Bread" } }
+                    Chef = new PastryChef { Id = 1, Name = "Chef Paulo", Specialties = new List<string> { "Baguette", "White Bread", "Milk Bread" } }
                 },
                 new BakeryOffice
                 {
                     Id = 2,
-                    Name = "Second Office",
+                    Name = "Second Office :|",
                     MaxCapacity = 100,
-                    Location = "Suburb",
+                    Location = "San Miguel",
                     ServiceSchedule = "Mon-Sat 9am-4pm",
-                    Chef = new PastryChef { Id = 2, Name = "Chef Second", Specialties = new List<string> { "Milk Bread", "Hamburger Bun" } }
+                    Chef = new PastryChef { Id = 2, Name = "Chef Emanuel", Specialties = new List<string> { "Baguette", "White Bread", "Hamburger Bun" } }
                 }
             };
         }

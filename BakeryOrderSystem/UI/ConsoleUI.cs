@@ -63,24 +63,57 @@ namespace BakeryProject.UI
             var bakery = _bakeryService.GetBakeryById(bakeryId);
             if (bakery == null)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Bakery not found.");
+                Console.ResetColor();
                 return;
             }
             while (true)
             {
                 Console.Clear();
-                // Display detailed bakery information
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"=== {bakery.Name} ===");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"Location: {bakery.Location}");
                 Console.WriteLine($"Service Schedule: {bakery.ServiceSchedule}");
                 Console.WriteLine($"Pastry Chef: {bakery.Chef.Name}");
                 Console.WriteLine("Specialties: " + string.Join(", ", bakery.Chef.Specialties));
+                Console.ResetColor();
                 Console.WriteLine();
+
+                if (bakery.Orders.Count > 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine("Current Orders:");
+                    int orderNumber = 1;
+                    foreach (var order in bakery.Orders)
+                    {
+                        Console.WriteLine($"{orderNumber}. Order #{order.Id} (Created: {order.CreatedAt})");
+                        Console.Write("   Items: ");
+                        foreach (var item in order.Items)
+                        {
+                            Console.Write($"{item.Quantity} x {item.Bread.Name}, ");
+                        }
+                        Console.WriteLine();
+                        Console.WriteLine($"   Total Cost: ${order.TotalCost}");
+                        orderNumber++;
+                    }
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Options:");
                 Console.WriteLine("1. Add Order");
                 if (bakery.Orders.Count > 0)
                     Console.WriteLine("2. Prepare All Orders");
                 Console.WriteLine("0. Back to Main Menu");
+                Console.ResetColor();
                 Console.Write("Select an option: ");
+
                 try
                 {
                     string choice = Console.ReadLine();
@@ -92,19 +125,22 @@ namespace BakeryProject.UI
                         PrepareOrdersWorkflow(bakery);
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid option. Press any key to continue.");
+                        Console.ResetColor();
                         Console.ReadKey();
                     }
                 }
                 catch (Exception ex)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Error: {ex.Message}");
                     Console.WriteLine("Press any key to continue.");
+                    Console.ResetColor();
                     Console.ReadKey();
                 }
             }
         }
-
 
         private void AddOrderWorkflow(BakeryOffice bakery)
         {
@@ -115,7 +151,11 @@ namespace BakeryProject.UI
                 while (addingItems)
                 {
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"=== Add Order to {bakery.Name} ===");
+                    Console.ResetColor();
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("Available Bread Options:");
                     var availableBreads = bakery.Chef.Specialties;
                     int optionNumber = 1;
@@ -127,10 +167,14 @@ namespace BakeryProject.UI
                         breadOptions.Add(optionNumber, breadName);
                         optionNumber++;
                     }
+                    Console.ResetColor();
+
                     Console.Write("Select an option: ");
                     if (!int.TryParse(Console.ReadLine(), out int selectedOption) || !breadOptions.ContainsKey(selectedOption))
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid option. Press any key to try again.");
+                        Console.ResetColor();
                         Console.ReadKey();
                         continue;
                     }
@@ -142,14 +186,18 @@ namespace BakeryProject.UI
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Error: {ex.Message}. Press any key to try again.");
+                        Console.ResetColor();
                         Console.ReadKey();
                         continue;
                     }
                     Console.Write("Enter quantity: ");
                     if (!int.TryParse(Console.ReadLine(), out int quantity) || quantity <= 0)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid quantity. Press any key to try again.");
+                        Console.ResetColor();
                         Console.ReadKey();
                         continue;
                     }
@@ -162,8 +210,10 @@ namespace BakeryProject.UI
 
                     if (order.TotalBreadCount() + item.Quantity > bakery.GetRemainingCapacity())
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Cannot add item. Exceeds capacity. Remaining capacity: {bakery.GetRemainingCapacity()} breads.");
                         Console.WriteLine("Press any key to return to bakery menu.");
+                        Console.ResetColor();
                         Console.ReadKey();
                         return;
                     }
@@ -175,28 +225,35 @@ namespace BakeryProject.UI
                         addingItems = false;
                 }
                 order.TotalCost = order.CalculateTotalCost();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Order Total Cost: ${order.TotalCost}");
                 Console.Write("Confirm order? (y/n): ");
+                Console.ResetColor();
                 string confirm = Console.ReadLine();
                 if (confirm.ToLower() == "y")
                 {
                     _bakeryService.AddOrderToBakery(bakery.Id, order);
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Order added successfully! Press any key to continue.");
+                    Console.ResetColor();
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Order cancelled. Press any key to continue.");
+                    Console.ResetColor();
                 }
                 Console.ReadKey();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 Console.WriteLine("Press any key to continue.");
+                Console.ResetColor();
                 Console.ReadKey();
             }
         }
-
 
         private void PrepareOrdersWorkflow(BakeryOffice bakery)
         {
