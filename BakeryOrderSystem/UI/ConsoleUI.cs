@@ -69,7 +69,13 @@ namespace BakeryProject.UI
             while (true)
             {
                 Console.Clear();
+                // Display detailed bakery information
                 Console.WriteLine($"=== {bakery.Name} ===");
+                Console.WriteLine($"Location: {bakery.Location}");
+                Console.WriteLine($"Service Schedule: {bakery.ServiceSchedule}");
+                Console.WriteLine($"Pastry Chef: {bakery.Chef.Name}");
+                Console.WriteLine("Specialties: " + string.Join(", ", bakery.Chef.Specialties));
+                Console.WriteLine();
                 Console.WriteLine("1. Add Order");
                 if (bakery.Orders.Count > 0)
                     Console.WriteLine("2. Prepare All Orders");
@@ -99,6 +105,7 @@ namespace BakeryProject.UI
             }
         }
 
+
         private void AddOrderWorkflow(BakeryOffice bakery)
         {
             try
@@ -109,22 +116,29 @@ namespace BakeryProject.UI
                 {
                     Console.Clear();
                     Console.WriteLine($"=== Add Order to {bakery.Name} ===");
-                    Console.WriteLine("Select Bread Type:");
-                    Console.WriteLine("1. Baguette");
-                    Console.WriteLine("2. White Bread");
-                    Console.WriteLine("3. Milk Bread");
-                    Console.WriteLine("4. Hamburger Bun");
-                    Console.Write("Your choice: ");
-                    if (!int.TryParse(Console.ReadLine(), out int breadChoice))
+                    Console.WriteLine("Available Bread Options:");
+                    var availableBreads = bakery.Chef.Specialties;
+                    int optionNumber = 1;
+                    var breadOptions = new Dictionary<int, string>();
+                    foreach (var breadName in availableBreads)
                     {
-                        Console.WriteLine("Invalid input. Press any key to try again.");
+                        Bread tempBread = _breadFactory.CreateBread(breadName);
+                        Console.WriteLine($"{optionNumber}. {breadName} - Price: ${tempBread.Price}");
+                        breadOptions.Add(optionNumber, breadName);
+                        optionNumber++;
+                    }
+                    Console.Write("Select an option: ");
+                    if (!int.TryParse(Console.ReadLine(), out int selectedOption) || !breadOptions.ContainsKey(selectedOption))
+                    {
+                        Console.WriteLine("Invalid option. Press any key to try again.");
                         Console.ReadKey();
                         continue;
                     }
+                    string selectedBreadName = breadOptions[selectedOption];
                     Bread bread;
                     try
                     {
-                        bread = _breadFactory.CreateBread(breadChoice);
+                        bread = _breadFactory.CreateBread(selectedBreadName);
                     }
                     catch (Exception ex)
                     {
@@ -182,6 +196,7 @@ namespace BakeryProject.UI
                 Console.ReadKey();
             }
         }
+
 
         private void PrepareOrdersWorkflow(BakeryOffice bakery)
         {

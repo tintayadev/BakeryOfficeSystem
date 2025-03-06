@@ -11,6 +11,8 @@ namespace BakeryProject.Domain.Entities
         public int MaxCapacity { get; set; }
         public PastryChef Chef { get; set; }
         public List<Order> Orders { get; set; } = new List<Order>();
+        public string Location { get; set; }
+        public string ServiceSchedule { get; set; }
 
         public int GetCurrentBreadCount() => Orders.Sum(o => o.TotalBreadCount());
 

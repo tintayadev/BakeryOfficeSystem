@@ -17,5 +17,22 @@ namespace BakeryProject.Application.Services
                 default: throw new ArgumentException("Invalid bread choice");
             }
         }
+
+        public Bread CreateBread(string breadName)
+        {
+            switch (breadName.ToLower())
+            {
+                case "baguette":
+                    return new Baguette();
+                case "white bread":
+                    return new WhiteBread();
+                case "milk bread":
+                    return new MilkBread();
+                case "hamburger bun":
+                    return new HamburgerBun();
+                default:
+                    throw new ArgumentException("Invalid bread name");
+            }
+        }
     }
 }

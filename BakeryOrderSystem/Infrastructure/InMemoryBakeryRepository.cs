@@ -18,6 +18,8 @@ namespace BakeryProject.Infrastructure
                     Id = 1,
                     Name = "Main Office",
                     MaxCapacity = 150,
+                    Location = "Downtown",
+                    ServiceSchedule = "Mon-Fri 8am-5pm",
                     Chef = new PastryChef { Id = 1, Name = "Chef Main", Specialties = new List<string> { "Baguette", "White Bread" } }
                 },
                 new BakeryOffice
@@ -25,6 +27,8 @@ namespace BakeryProject.Infrastructure
                     Id = 2,
                     Name = "Second Office",
                     MaxCapacity = 100,
+                    Location = "Suburb",
+                    ServiceSchedule = "Mon-Sat 9am-4pm",
                     Chef = new PastryChef { Id = 2, Name = "Chef Second", Specialties = new List<string> { "Milk Bread", "Hamburger Bun" } }
                 }
             };
@@ -36,10 +40,6 @@ namespace BakeryProject.Infrastructure
         }
 
         public IEnumerable<BakeryOffice> GetAllBakeries() => _bakeries;
-
-        public void UpdateBakery(BakeryOffice bakery)
-        {
-            // In an in-memory repository, changes are already reflected.
-        }
+        public void UpdateBakery(BakeryOffice bakery) { }
     }
 }
