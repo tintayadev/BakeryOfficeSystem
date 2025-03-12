@@ -1,38 +1,28 @@
 ﻿using System;
+using System.Linq;
 using BakeryProject.Domain.Entities;
 using BakeryProject.Domain.Interfaces;
+using BakeryProject.Infrastructure;
 
 namespace BakeryProject.Application.Services
 {
     public class BreadFactory : IBreadFactory
     {
-        public Bread CreateBread(int choice)
+        private readonly BakeryDbContext _context;
+
+        public BreadFactory(BakeryDbContext context)
         {
-            switch (choice)
-            {
-                case 1: return new Baguette();
-                case 2: return new WhiteBread();
-                case 3: return new MilkBread();
-                case 4: return new HamburgerBun();
-                default: throw new ArgumentException("Invalid bread choice");
-            }
+            _context = context;
         }
 
         public Bread CreateBread(string breadName)
         {
-            switch (breadName.ToLower())
-            {
-                case "baguette":
-                    return new Baguette();
-                case "white bread":
-                    return new WhiteBread();
-                case "milk bread":
-                    return new MilkBread();
-                case "hamburger bun":
-                    return new HamburgerBun();
-                default:
-                    throw new ArgumentException("Invalid bread name");
-            }
+            var trimmedName = breadName.Trim().ToLower();
+            var bread = _context.Breads
+                .FirstOrDefault(b => b.Name.Trim().ToLower() == trimmedName);
+            if (bread == null)
+                throw new ArgumentException("Invalid bread name: " + breadName);
+            return bread;
         }
     }
 }
