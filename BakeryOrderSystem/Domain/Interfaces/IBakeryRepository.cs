@@ -8,5 +8,7 @@ namespace BakeryProject.Domain.Interfaces
         BakeryOffice GetBakeryById(int id);
         IEnumerable<BakeryOffice> GetAllBakeries();
         void UpdateBakery(BakeryOffice bakery);
+        void SaveChanges();
+        IEnumerable<Order> GetHistoricalOrders();
     }
 }

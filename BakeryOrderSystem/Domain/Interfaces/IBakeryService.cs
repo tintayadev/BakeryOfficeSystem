@@ -10,5 +10,8 @@ namespace BakeryProject.Domain.Interfaces
         void AddOrderToBakery(int bakeryId, Order order);
         OrderSummary GetTotalSummary();
         List<string> PrepareOrders(int bakeryId);
+        List<Order> GetHistoricalOrders();
+
+        FullOrderSummary GetFullSummary();
     }
 }
