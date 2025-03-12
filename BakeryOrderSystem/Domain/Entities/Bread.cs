@@ -10,8 +10,8 @@ namespace BakeryProject.Domain.Entities
         public List<Ingredient> BaseIngredients { get; set; } = new List<Ingredient>();
         public int CookingTime { get; set; }
         public int RestingTime { get; set; }
-        public int FermentTime { get; set; } 
-        public int CookingTemperature { get; set; } 
+        public int FermentTime { get; set; }
+        public int CookingTemperature { get; set; }
 
         public abstract List<string> GetPreparationSteps(int quantity);
 

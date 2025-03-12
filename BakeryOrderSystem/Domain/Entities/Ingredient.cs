@@ -1,8 +1,10 @@
-﻿namespace BakeryProject.Domain.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BakeryProject.Domain.Entities
 {
+    [Owned]
     public class Ingredient
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Unit { get; set; }
         public decimal Quantity { get; set; }
